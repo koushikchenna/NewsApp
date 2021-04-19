@@ -1,0 +1,193 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Welcome to NewsApp{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="{% static 'newslist/styles.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        div.txtcont {
+            display: none;
+        }
+        div.corona {
+            border-radius: 25px;
+            border: 2px solid #000000;
+            width: 100%;
+            bottom: 0;
+            color: white;
+            background-color: #fae3c6;
+            /*margin: auto;*/
+            /*height: calc(100% - 324px);*/
+            height: 100%;
+        }
+        div.form-group{
+            width: 100%;
+            align: center;
+        }
+        button {
+            background-color: #e7e7e7;
+            color: black;
+            width: 50%;
+            align: center;
+        }
+        .card-body:hover {
+            background-color: #d3d3d3;
+        }
+        button:hover {
+            opacity: 0.4;
+        }
+        div.text {
+            padding-left: 55px;
+            padding-top: 35px;
+        }
+        div.pagination{
+            align: center;
+        }
+        div.weathercont{
+            border-radius: 25px;
+            border: 2px solid #000000;
+            width: 750px;
+            display: table-cell;
+            width: 25%;
+        }
+        div.newscont{
+            border-radius: 25px;
+            border: 2px solid #000000;
+            padding: 20px;
+            width: 750px;
+            max-width: 750px;
+            margin-left: 20px;
+            animation: fadeIn ease 20s;
+            -webkit-animation: fadeIn ease 7s;
+            -moz-animation: fadeIn ease 7s;
+            -o-animation: fadeIn ease 7s;
+            -ms-animation: fadeIn ease 7s;
+            display: table-cell;
+        }
+        .newscont:hover {
+            background-color: #D3D3D3;
+        }
+        .step-links {
+            text-align: center;
+        }
+        body{
+            background-color: #fef6f0;
+        }
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+        .container {
+            position: relative;
+        }
+        div.textfield{
+            padding-left: 600px;
+        }
+        div.contentvals{
+            padding-left: 50px;
+        }
+        /* Bottom right text */
+        .text-block {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: black;
+            color: white;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+        @keyframes fadeIn {
+            0% {opacity:0;}
+            100% {opacity:1;}
+        }
+
+        @-moz-keyframes fadeIn {
+            0% {opacity:0;}
+            100% {opacity:1;}
+        }
+
+        @-webkit-keyframes fadeIn {
+            0% {opacity:0;}
+            100% {opacity:1;}
+        }
+
+        @-o-keyframes fadeIn {
+            0% {opacity:0;}
+            100% {opacity:1;}
+        }
+
+        @-ms-keyframes fadeIn {
+            0% {opacity:0;}
+            100% {opacity:1;}
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f4bd60;">
+    {% if user.is_authenticated %}
+        <a class="navbar-brand" href="{% url 'index' %}">Welcome Back, {{user.username}}</a>
+    {% else %}
+        <a class="navbar-brand" href="#">Welcome to NewsApp</a>
+    {% endif %}
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            {% if user.is_authenticated %}
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'index' %}">Today's Hot News</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'persnews' user.username%}">Your News</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'bytopic' %}">Search By Topic</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'settings' %}">Settings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+            </li>
+            {% else %}
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'index' %}">Today's Hot News</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Log In</a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+<div class="bdy">
+{% block body %}
+{% endblock %}
+</div>
+</body>
+</html>
+{% block script %}
+<script src="{% static 'newslist/index.js' %}"></script>
+{% endblock %}

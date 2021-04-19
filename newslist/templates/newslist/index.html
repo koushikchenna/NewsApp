@@ -1,0 +1,70 @@
+{% extends "newslist/layout.html" %}
+
+{% block body %}
+<h2 align="center">Hottest News of the Day</h2>
+<div style="width: 100%; display: table;">
+    <div style="display: table-row; height: 100px;">
+<div class="weathercont" class="weathercont" style="background-image: url('https://wihvh2h3a451kpkrc1a9k9l1-wpengine.netdna-ssl.com/wp-content/uploads/2018/08/sunset-clouds.jpg');">
+    <h3 align="center">Current Weather Data</h3>
+    <p align="center">The weather today in your location ranges from {{min_temp}} F to {{max_temp}} F but the temperature right now is {{temp}} F </p>
+</div>
+</aside>
+{% for n in news %}
+    <div onclick="hide(this.id)" id="{{n.description}}" class="newscont">
+        <h4>{{n.title}}</h4>
+        <p>{{n.source}}</p>
+        <p>{{n.author}}</p>
+        <div id="myModal" class="modal" name="{{n.description}}">
+            <div class="modal-content">
+                <span class="close" onclick="spanfunc()">&times;</span>
+                <p>{{n.description}}</p>
+                <p>{{n.content}}</p>
+                <p>Polarity: {{n.lean}}</p>
+                <p>Subjectivity: {{n.polar}}</p>
+                <a href="" onclick="info()">What are Polarity and Subjectivity?</a>
+            </div>
+        </div>
+        <br>
+    </div>
+<br>
+{% endfor %}
+</div>
+</div>
+<div class="corona" style="background-image: url('https://media.npr.org/assets/img/2020/02/11/sciencesource_ss22502136_wide-4db0dc0052033a7ceb7b5a2a224144272874adbb.jpg?s=1400');">
+    <h3 align="center">Current Coronavirus Data</h3>
+    <div class="text" align="center">
+    Location: USA
+    <br>
+    <br>
+    Last Updated: {{date}}
+    <br>
+    <br>
+    New Confirmed Cases are {{new_confirmed}}, adding to a total of {{total_confirmed}}
+    <br>
+    <br>
+    New deaths are {{new_deaths}}, adding to a total of {{total_deaths}}
+    <br>
+    <br>
+    New recoveries are {{new_recovered}} adding to a total {{total_recovered}}
+    <br>
+    <br>
+    </div>
+</div>
+<div class="pagination" align="center">
+    <span class="step-links">
+        {% if news.has_previous %}
+            <a href="?page=1" text-align="center">&laquo; first</a>
+            <a href="?page={{ news.previous_page_number }}" text-align="center">previous</a>
+        {% endif %}
+
+        <span class="current" text-align="center">
+            Page {{ news.number }} of {{ news.paginator.num_pages }}.
+        </span>
+
+        {% if news.has_next %}
+            <a href="?page={{ news.next_page_number }}" text-align="center">next</a>
+            <a href="?page={{ news.paginator.num_pages }}" text-align="center">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "newslist/layout.html" %}
+
+{% block body %}
+<h3 align="center"> Hello, {{user.username}}</h3>
+<div class="contentvals">
+Current News Addons:
+{% for s in setting %}
+    {% if s.user == user.username %}
+        <br>
+        <li>{{s.setting}}</li>
+    {% endif %}
+{% endfor %}
+<br>
+<br>
+Add/Remove Addons:
+    <br>
+    <a href="" id="corona/{{user.username}}" onclick="settingcorona(this.id)">Covid-19 Statistics</a>
+    <br>
+    <br>
+    <a href="" id="sports/{{user.username}}" onclick="settingsports(this.id)">Sports Scores</a>
+    <br>
+    <br>
+    <a href="" id="weather/{{user.username}}" onclick="settingweather(this.id)">Weather</a>
+    <br>
+    <br>
+</div>
+<h3 align="center">Having Issues?</h3>
+<div class="textfield">
+<textarea id="w3review" name="w3review" rows="4" cols="50">
+Leave a comment down below with the issue and we'll get back to you!
+</textarea>
+<br><br>
+<input type="submit" value="Submit">
+</div>
+{% endblock %}

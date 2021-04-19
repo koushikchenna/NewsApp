@@ -1,0 +1,66 @@
+{% extends "newslist/layout.html" %}
+
+{% block body %}
+<h2 align="center">Your Personalized News</h2>
+<div class="card bg-dark text-white" onclick="hideelem(this.id)" id="corona">
+    <img class="card-img" height="400" src="https://media.npr.org/assets/img/2020/02/11/sciencesource_ss22502136_wide-4db0dc0052033a7ceb7b5a2a224144272874adbb.jpg?s=1400" alt="Card image">
+    <div class="card-img-overlay">
+        <h5 class="card-title">Today's Coronavirus Data</h5>
+        Location: USA
+        <br>
+        <br>
+        Last Updated: {{date}}
+        <br>
+        <br>
+        New Confirmed Cases are {{new_confirmed}}, adding to a total of {{total_confirmed}}
+        <br>
+        <br>
+        New deaths are {{new_deaths}}, adding to a total of {{total_deaths}}
+        <br>
+        <br>
+        New recoveries are {{new_recovered}} adding to a total {{total_recovered}}
+        <br>
+        <br>
+        <p class="card-text">Click to Dismiss</p>
+    </div>
+</div>
+
+<div class="card bg-dark text-white" onclick="hideelem(this.id)" id="weather">
+    <img class="card-img" height="400" src="https://wihvh2h3a451kpkrc1a9k9l1-wpengine.netdna-ssl.com/wp-content/uploads/2018/08/sunset-clouds.jpg" alt="Card image">
+    <div class="card-img-overlay">
+        <h5 class="card-title">Today's Weather Data</h5>
+        <h3 align="center">Current Weather Data</h3>
+        <p align="center">The weather today in {{location}} ranges from {{min_temp}} F to {{max_temp}} F but the temperature right now is {{temp}} F </p>
+        <p class="card-text" align="center">Click to Dismiss</p>
+    </div>
+</div>
+    {% for p in persnews %}
+        <div onclick="hide(this.id)" id="{{p.description}}">
+        {% if p.content|length > 750 %}
+            <div class="card-text-center">
+                <div class="card">
+                    <!--<img class="card-img-top" src="{{p.imgurl}}" width="276" height="180"> -->
+                    <div class="card-body">
+                        <h4 class="card-title">{{p.title}}</h4>
+                        <p class="card-text">{{p.source}}</p>
+                        <p class="card-text">{{p.author}}</p>
+                        <img src="{{p.imgurl}}" width="300" height="100" style="float:center;">
+                    </div>
+            <div id="myModal" class="modal" name="{{p.description}}">
+                <div class="modal-content">
+                    <span class="close" onclick="spanfunc()">&times;</span>
+                        <img src="{{p.imgurl}}">
+                        <p>{{p.description}}</p>
+                        <p>{{p.content}}</p>
+                        <p>Polarity: {{p.lean}}</p>
+                        <p>Subjectivity: {{p.polar}}</p>
+                        <a href="" onclick="info()">What are Polarity and Subjectivity?</a>
+                        <br>
+                        <i class="material-icons" id="{{p.title}}" onclick="down_vote(this.id)">thumb_down</i>
+                </div>
+            </div>
+            {% endif %}
+                </div>
+            </div>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "newslist/layout.html" %}
+{% block body %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<form class="searchbar" align="center" action="{% url 'bytopicres' %}">
+    <input type="text" placeholder="Search.." name="search">
+    <button type="submit"><i class="fa fa-search"></i></button>
+</form>
+
+    {% if state == "true" %}
+        {% for n in news %}
+            {% if n.content|length > 750 %}
+                <div class="pge">
+                <h4 id="title">{{n.title}}</h4>
+                <p id="source">{{n.source}}</p>
+                <p>{{n.author}}</p>
+                <p>{{n.description}}</p>
+                <p>{{n.content}}</p>
+                <p id="link">{{n.urls}}</p>
+                <p>Polarity: {{n.lean}}</p>
+                <p>Subjectivity: {{n.polar}}</p>
+                <a href="" onClick="info()">What are Polarity and Subjectivity?</a>
+                <br>
+            {% endif %}
+            {% for v in val %}
+                {% if v.title == n.title %}
+                    {% if user.is_authenticated %}
+                        <i class="material-icons" id="{{v.idtitle}}" name="{{user.username}}" onClick="reply_click(this.id, this.name)">favorite_border</i>
+                    {% endif %}
+                </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    {% endif %}
+{% endblock %}
